@@ -109,3 +109,32 @@ docker rm node-app -f
 # enter docker container, exit to leave
 docker exec -it node-app bash
 ```
+
+### Setup: Development Environment with real time changes using volumes & nodemon 
+
+1. install nodemon locally
+    ```
+    npm install nodemon --save-dev
+    ```
+
+1. add scripts to package.json
+    ```json
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon -L index.js"
+    }
+    ```
+
+1. change CMD line in docker file 
+    ```docker
+    CMD ["npm", "run", "dev"]
+    ```
+
+1. connect container to local path
+    ```bash
+    # use -v localpath:containerpath
+    docker run -v  C:\Users\Pter\Desktop\docker-node-express\:/app -p 3000:3000 -d --name node-app node-app-image
+
+    # shortcut with %cd%, ${pwd}, $(pwd)
+    docker run -v  ${pwd}:/app -p 3000:3000 -d --name node-app node-app-image
+    ```
